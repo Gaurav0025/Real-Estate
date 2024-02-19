@@ -18,3 +18,13 @@ app.listen(3000,() => {
 
 app.use("/backend/user",userRouter);
 app.use('/backend/auth',authRouter);
+
+app.use((err,req,res,next) => {
+    const statusCode = err.statusCode || 500;
+    const message = err.message || 'Internal Server Error';
+    return res.stats(statusCode).json({
+        success:false,
+        statusCode,
+        message,
+    });
+});
